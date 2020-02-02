@@ -15,7 +15,7 @@ def test_add_dots():
 
 def remove_dots():
    # return "".join(param.split("."))::
-    return param.replae(".","")
+    return param.replace(".","")
 
 def test_remove_dots():
     assert remove_dots("t.e.x.t") == "text"

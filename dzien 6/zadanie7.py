@@ -1,17 +1,3 @@
-#klasa EMployee
-#
-# class Employee:
-#     def __int__(self, imie, nazwisko, stawka, time):
-#         self.imie = imie
-#         self.nazwisko = nazwisko
-#         self.stawka = stawka
-#         self.pay = stawka * time
-#     def __str__(self):
-#         return f"Employee: {self.imie}, {self.nazwisko}, {self.stawka}, {self.pay}"
-#     def register_time(self):
-#         print(f"Employee")
-
-
 class Employee:
     def __init__(self, f_name, l_name, rph):
         self.first_name = f_name
@@ -36,6 +22,20 @@ class Employee:
         self._worked_overhours = 0
         return to_pay
 
+class PremiumEmployee(Employee):
+
+    def __init__(self, f_name, l_name, rph):
+       super().__init__(self, f_name, l_name, rph)
+       self.bonuses = 0
+
+
+    def give_bonus(self, bonus):
+        self.bonuses += bonus
+    def pay_salary(self):
+        to_pay = super().pay_salary()
+        to_pay += self.bonuses
+        self.bonuses = 0
+        return to_pay
 
 class TestEmployee:
 
@@ -72,3 +72,24 @@ class TestEmployee:
         employee.register_time(10)
         employee.register_time(10)
         assert employee.pay_salary() == 3 * 8 * 100 + 3 * 2 * 200
+
+class TestPremiumEmployee:
+    def test_initialization(self):
+        pe = PremiumEmployee("Jan", "Nowak", 100.0)
+        assert pe.first_name == "Jan"
+        assert pe.last_name == "Nowak"
+        assert pe.rate_per_hour == 100.0
+
+    def test_give_bonus(self):
+        pe = Employee("Jan", "Nowak", 100.0)
+        assert pe.pay_salary() == 0
+        pe.give_bonus(500)
+        pe.give_bonus(300)
+        assert pe.pay_salary() == 800
+        assert pe.pay_salary() == 0
+
+        pe.register_time(5)
+        pe.give_bonus(300)
+        assert pe.pay_salary() == 800
+
+

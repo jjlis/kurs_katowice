@@ -1,0 +1,6 @@
+
+
+def squres(n)
+
+
+@property
